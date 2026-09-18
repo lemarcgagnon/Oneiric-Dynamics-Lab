@@ -1,166 +1,90 @@
-# Oneiric Dynamics Lab
+# OD Lab PHP/MySQL v1.4.0 — Namecheap research laboratory
 
-**A reproducible research laboratory for studying offline generative recombination, memory consolidation, and constrained self-revision in artificial intelligence.**
+OD Lab is a **light-only, FR/EN** PHP/MySQL implementation of the experimental framework in **Oneiric Dynamics for Artificial Intelligence** (revised 16 September 2026). The application is bound to manuscript SHA-256:
 
-Oneiric Dynamics Lab is the public research repository associated with the manuscript **_Oneiric Dynamics for Artificial Intelligence: A Research Framework for Offline Generative Recombination, Memory Consolidation, and Constrained Self-Revision_**.
+`71d27adacc38fc8471c2a6d1be090f1279f3284d261f8c2addfc29401f4594b6`
 
-The project is designed to turn the paper's formal framework into an inspectable experimental system. Its purpose is not to assume that internally generated experience is beneficial, but to make that question testable under explicit controls, provenance rules, admission criteria, revision limits, rollback conditions, and sealed evaluation.
+## Install
 
-## Research question
+1. In cPanel, create an empty MySQL database and user and grant that user all privileges on the database.
+2. Upload and extract the ZIP.
+3. Open `install.php`.
+4. Enter DB host/port/name/user/password and an OD Lab administrator login.
+5. When installation reports success, delete `install.php`.
+6. Open `public/login.php` (or point a subdomain document root directly at `public/`).
+7. Open **Diagnostic / Health** once to verify the real PHP/PDO/MySQL environment.
 
-A learning system can revisit, reorganize, recombine, and test material already available to it. The central question studied here is whether controlled internal generation can provide measurable benefits beyond replay or ordinary augmentation, while preserving externally supported knowledge and keeping synthetic material from becoming its own evidence.
+The installer checks PHP >= 8.1, PDO MySQL, cURL, JSON, `random_bytes`, and filesystem writability. **No LLM API key is requested or stored during installation.**
 
-The laboratory therefore separates four operations that are often conflated:
+## BYOK credential policy
 
-1. **generation** of replay, recombined, or model-relative counterfactual candidates;
-2. **absolute admission** of candidates for a declared learning use;
-3. **state revision** under explicit limits;
-4. **independent validation** followed by commit or rollback.
+DeepSeek is Bring Your Own Key. The key is entered in Mission Control only when the user is ready to run a mission.
 
-A valid experimental cycle may end with **no accepted change**.
+- the key is **not stored in MySQL**;
+- it is **not written to `config.php`**;
+- there is **no save-key route**;
+- it is **not placed in the frozen scientific configuration**;
+- it is **not written to logs, reports, or exports**;
+- the browser does not use `localStorage` or `sessionStorage` for the key;
+- the current page sends it only with the run request over HTTPS; the backend holds it in request memory while the run executes and discards it afterward;
+- a persistence guard blocks a run if the credential text is detected in result, event, analysis, or usage payloads before persistence.
+- the provider destination is server-side locked to `https://api.deepseek.com` / `deepseek-flash`; client JSON cannot redirect a BYOK key to another host.
 
-## Experimental hypotheses
+Reloading/closing Mission Control forgets the key. `public/health.php` verifies that the installed MySQL schema has no API-key persistence column.
 
-The current research program is organized around five falsifiable hypotheses:
+## Singular scientific execution path
 
-- **H1 — Retention vs. compositional transfer.** Different mixtures of replay and recombination may favor different outcomes.
-- **H2 — Non-monotonic novelty.** Moderate realized novelty may outperform both near-replay and highly distorted generation in some regimes.
-- **H3 — Proposal controls vs. acceptance controls.** Soft proposal regularization and hard acceptance gates may have distinguishable effects.
-- **H4 — Structural reuse.** Transfer may differ between new combinations of represented factors and genuinely absent factors.
-- **H5 — Targeted generation.** Generating around uncertainty or interference may be more compute-efficient than uniform internal generation.
+`Mission Control -> api.php -> LabService -> ResearchContract -> LabEngine -> Repository -> PdoRepository -> MySQL -> Analysis -> report/export`
 
-These are **research hypotheses, not established results**. Positive, null, and adverse outcomes are all meaningful if the protocol and evidence are preserved.
-
-## Scientific implementation principles
-
-The laboratory is built around several non-negotiable rules:
-
-- candidate generation does not establish truth;
-- admission for learning does not establish factual validity;
-- relative weighting cannot override a failed mandatory check;
-- protected checks are frozen before the internal phase;
-- final evaluation data are withheld from generation, tuning, admission, and early stopping;
-- rejected proposals do not silently modify the committed state;
-- provenance is preserved through generation, admission, memory revision, evaluation, and reporting;
-- software success is not treated as evidence that H1–H5 are true.
+The browser never owns an OD equation, gate, model call, or SQL write. Slider previews are sent to the backend; the backend derives and validates canonical values before execution.
 
 ## Mathematical implementation
 
-The PHP laboratory contains a canonical backend implementation of the paper's applicable fixed-API specialization, including:
+The runtime implements the following paper equations directly under the declared finite fixed-API specialization:
 
-- the replay / recombination / counterfactual proposal mixture;
-- non-negative mixture coefficients summing to one;
-- independent operator draws for candidate generation;
-- absolute candidate admission;
-- novelty, coherence, and anchor-disagreement scoring;
-- numerically stabilized Gibbs weighting;
-- the admitted empirical distribution;
-- probability-distribution memory mixture updates;
-- total-variation displacement checks;
-- protected-loss acceptance gates;
-- commit / rollback transitions;
-- finite-reference novelty measurement;
-- separate proposal, admission, and learning-influence diagnostics.
+- Eq. (3)-(4): proposal mixture and iid categorical operator draws;
+- Eq. (5): absolute admission before weighting;
+- Eq. (6): relative ranking, with `lambda_A=0` because anchor correctness is mandatory in this controlled benchmark;
+- Eq. (7): stabilized Gibbs weighting;
+- Eq. (8): weighted empirical admitted distribution `Qhat`;
+- Eq. (12): exact memory mixture `mu*=(1-eta)muW+eta Qhat`, with `eta_bar=1`;
+- Eq. (13)-(14): protected-loss gate and exact commit/rollback logic;
+- Eq. (18): discrete total-variation identity/bound, verified at runtime;
+- Eq. (19): finite-reference Euclidean novelty with frozen one-hot `phi`, `sigma=sqrt(8)`, `Nmax=1`;
+- Eq. (20): proposal novelty, admission fraction, and weighted learning novelty kept distinct.
 
-The implementation deliberately **does not claim neural-parameter theorems that cannot be observed through a remote fixed-model API**. When DeepSeek is used through an API, the experimentally revised state concerns structured memory and workflow state rather than direct access to the model's trainable parameter vector.
+Eq. (9)-(11) and Eq. (16)-(17) are **not claimed** because a fixed DeepSeek API does not expose trainable neural parameters `theta`. Eq. (15)/Proposition 4 is also not claimed because state sufficiency, time homogeneity, compactness and Feller continuity are not established for the web application.
 
-## PHP / MySQL laboratory
+## Research-analysis layer
 
-The experimental application is designed for conventional PHP hosting, including cPanel / Namecheap-style deployments.
+v1.4 adds a prespecified analysis layer rather than treating condition means as hypothesis tests:
 
-Main characteristics include:
+- H1: seed-paired replay+recombination vs replay and vs ordinary augmentation, with separate retention and known-combination transfer deltas;
+- H2: flat/linear/quadratic response comparison, AICc where defined, interior-vertex check, effect threshold, and deterministic seed-cluster bootstrap interval for the vertex when replication is sufficient;
+- H3-FAPI: proposal movement, gate, rollback and committed movement kept distinct;
+- H4: seed-paired **difference-in-differences** relative to replay: `(OD known − replay known) − (OD absent − replay absent)`; raw known-minus-absent gaps remain diagnostic only;
+- H5: seed-paired targeted vs uniform performance plus API-call, token and wall-time deltas, with efficiency ratio reported only as a diagnostic alongside raw cost/performance.
 
-- PHP 8.1+ and MySQL;
-- browser-based `install.php` setup;
-- light-only user interface;
-- French and English interface (FR/EN);
-- contextual researcher tooltips explaining each experimental concept and the intended effect of adjustable parameters;
-- sliders for controlled parameter variation;
-- Mission Control for configuring and launching experiments;
-- DeepSeek Bring Your Own Key execution;
-- canonical backend ownership of the scientific formulas;
-- raw evidence logging and cryptographic evidence hashes;
-- in-application research reports;
-- JSON and CSV research exports;
-- hostile paper-to-code, mathematical, architecture, evidence-integrity, BYOK, and HTTP-flow tests.
+Means and paired deltas use Student-t 95% intervals. Effect thresholds are frozen in the mission config before final evaluation. The report never auto-declares a universal hypothesis “confirmed”; it states when replication is insufficient and preserves null/adverse findings.
 
-## Bring Your Own Key — session only
+## Research evidence
 
-**The DeepSeek API key is not stored by Oneiric Dynamics Lab.**
+Every condition/seed persists raw evidence including frozen config/split/code hashes, candidate provenance, admission/rejection, scores and weights, `Qhat`, Eq. (12)/(18)/(19)/(20) traces, reference/proposal/committed state hashes, answer-level evaluator results, gate/rollback state, API usage events, and final sealed evaluations.
 
-The user enters the key only for the research session that requires it. The application is designed so that the key:
+Every `condition_results` row has `result_sha256`; every `run_events` row has `event_sha256`; completed runs also store hashes for analysis/usage plus an `evidence_root_sha256` over the ordered result/event hashes. Reports and exports verify these hashes before using the evidence, so tampered or deleted evidence fails closed. A run is marked completed only after analysis, the terminal event and evidence seal have all succeeded, so an unsealed run cannot be reported as completed. The HTML report is generated inside the application from persisted canonical analysis/evidence. JSON export is the forensic research package; CSV is available for tabular analysis.
 
-- is not written to MySQL;
-- is not written to `config.php`;
-- is not included in the frozen experimental configuration;
-- is not written to logs;
-- is not included in reports or research exports;
-- is not committed to this repository.
+Evaluator responses are fail-closed: a DeepSeek batch must return a completed JSON object containing **exactly one string answer for every requested question ID**. Missing/truncated answers are retried/failed as evaluator errors rather than silently counted as task mistakes.
 
-The key exists only for the duration of the execution request and is discarded afterward.
+## UI
 
-## Reproducibility and evidence
+- light theme only;
+- FR/EN via one `I18n` authority;
+- keyboard-accessible researcher tooltips explaining the concept and intended experimental impact of controls;
+- sliders for mixture, candidate count, Gibbs temperature, ranking weights, Eq. (12) `eta`, protected-loss tolerances, memory context size, seeds and budgets;
+- no formula duplicated in JavaScript.
 
-A research run is intended to preserve enough information to reconstruct how its result was obtained, including:
+## Qualification
 
-- software and paper version identifiers;
-- frozen configuration and configuration hash;
-- dataset split manifest and split hash;
-- seeds and experimental conditions;
-- candidate provenance and generation operator;
-- admission and rejection reasons;
-- novelty, coherence, anchor disagreement, scores, and learning weights;
-- empirical admitted distribution;
-- reference and proposed memory distributions;
-- gate inputs, tolerances, decisions, and rollback state;
-- final evaluation results;
-- API calls, retries, token usage, latency, and compute accounting;
-- analysis outputs and cryptographic evidence hashes.
+The package includes internal tests, hostile tests, a paper-derived adversarial IV&V suite, an independent Python↔PHP numerical oracle, a synthetic research-analysis qualification, HTTP end-to-end integration, PDO/schema contract tests, BYOK/secret gates, and architecture gates.
 
-Reports are generated from persisted canonical evidence rather than from browser-side recomputation.
-
-## Repository structure
-
-The public repository is being organized around the following structure:
-
-```text
-Oneiric-Dynamics-Lab/
-├── README.md
-├── CITATION.cff
-├── SECURITY.md
-├── PAPER.sha256
-├── paper/
-│   └── Oneiric_Dynamics_Research_Framework_v3_2026-09-16.pdf
-└── php-lab/
-    ├── install.php
-    ├── schema.sql
-    ├── app/
-    ├── public/
-    ├── docs/
-    ├── tests/
-    └── qualification/
-```
-
-## Planned public research workflow
-
-1. Read the research manuscript and the paper-to-code implementation contract.
-2. Install the PHP/MySQL laboratory.
-3. Run the environment diagnostic before using an LLM API.
-4. Start with a one-seed smoke experiment.
-5. Inspect the raw evidence and generated report.
-6. Run matched multi-seed comparisons only after the environment and evidence chain are verified.
-7. Treat H1–H5 conclusions as empirical findings subject to replication, uncertainty analysis, and the declared scope of the benchmark.
-
-## Current status
-
-The current implementation line is **OD Lab PHP/MySQL v1.4.x**. Internal qualification includes independent mathematical cross-checks, hostile architecture and evidence tests, HTTP frontend-to-backend execution tests, analysis qualification, and BYOK non-persistence checks.
-
-Production-specific verification of the actual hosting environment, MySQL/PDO path, and live DeepSeek API path must still be performed on the target server before live experimental results are interpreted.
-
-## Author
-
-**Marc Gagnon**
-
-## License
-
-Public visibility does not by itself grant permission to reuse the code or manuscript. Refer to the repository's license status before copying, modifying, redistributing, or using the material commercially.
+The build container executes the real PHP HTTP application path but does not provide `pdo_mysql`/a MySQL server for a live production PDO transaction. On Namecheap, `install.php` and `public/health.php` close that final environment-specific boundary before the first DeepSeek `smoke` run.

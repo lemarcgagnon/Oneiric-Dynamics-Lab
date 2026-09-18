@@ -1,0 +1,25 @@
+<?php
+declare(strict_types=1);
+namespace ODLab;
+
+final class PdoRepository implements Repository
+{
+    public function __construct(private \PDO $pdo) {}
+    public function findUserByUsername(string $username): ?array { $q=$this->pdo->prepare('SELECT * FROM users WHERE username=?'); $q->execute([$username]); $r=$q->fetch(); return $r?:null; }
+    public function createMission(int $userId,string $title,string $objective,string $suite,string $configJson,string $configHash): int { $q=$this->pdo->prepare('INSERT INTO missions(user_id,title,objective,suite,config_json,config_hash,status,created_at) VALUES(?,?,?,?,?,? ,"queued",NOW())'); $q->execute([$userId,$title,$objective,$suite,$configJson,$configHash]); return (int)$this->pdo->lastInsertId(); }
+    public function getMission(int $missionId): ?array { $q=$this->pdo->prepare('SELECT * FROM missions WHERE id=?'); $q->execute([$missionId]); $r=$q->fetch(); return $r?:null; }
+    public function markMissionRunning(int $missionId): void { $this->pdo->prepare('UPDATE missions SET status="running",started_at=NOW(),error_text=NULL WHERE id=?')->execute([$missionId]); }
+    public function markMissionCompleted(int $missionId): void { $this->pdo->prepare('UPDATE missions SET status="completed",completed_at=NOW() WHERE id=?')->execute([$missionId]); }
+    public function markMissionFailed(int $missionId,string $error): void { $this->pdo->prepare('UPDATE missions SET status="failed",completed_at=NOW(),error_text=? WHERE id=?')->execute([$error,$missionId]); }
+    public function createRun(int $missionId,string $configHash,string $splitHash,string $splitManifestJson,string $providerModel,string $codeManifestHash): int { $q=$this->pdo->prepare('INSERT INTO runs(mission_id,config_hash,split_hash,split_manifest_json,software_version,provider_model,code_manifest_hash,status,started_at) VALUES(?,?,?,?,?,?,?,"running",NOW())'); $q->execute([$missionId,$configHash,$splitHash,$splitManifestJson,ODLAB_VERSION,$providerModel,$codeManifestHash]); return (int)$this->pdo->lastInsertId(); }
+    public function saveConditionResult(int $runId,string $condition,int $seed,string $resultJson): void { $hash=hash('sha256',$resultJson); $q=$this->pdo->prepare('INSERT INTO condition_results(run_id,condition_name,seed,result_sha256,result_json,created_at) VALUES(?,?,?,?,?,NOW())'); $q->execute([$runId,$condition,$seed,$hash,$resultJson]); }
+    public function saveRunEvent(int $runId,string $eventType,string $eventJson): void { $hash=hash('sha256',$eventType.'\n'.$eventJson); $q=$this->pdo->prepare('INSERT INTO run_events(run_id,event_type,event_sha256,event_json,created_at) VALUES(?,?,?,?,NOW())'); $q->execute([$runId,$eventType,$hash,$eventJson]); }
+    public function saveRunAnalysis(int $runId,string $analysisJson,string $usageJson): void { $this->pdo->prepare('UPDATE runs SET analysis_json=?,analysis_sha256=?,usage_json=?,usage_sha256=? WHERE id=? AND status="running"')->execute([$analysisJson,hash('sha256',$analysisJson),$usageJson,hash('sha256',$usageJson),$runId]); }
+    public function sealRunEvidence(int $runId): string { $q=$this->pdo->prepare('SELECT result_sha256 FROM condition_results WHERE run_id=? ORDER BY id');$q->execute([$runId]);$results=array_map('strval',$q->fetchAll(\PDO::FETCH_COLUMN));$q=$this->pdo->prepare('SELECT event_sha256 FROM run_events WHERE run_id=? ORDER BY id');$q->execute([$runId]);$events=array_map('strval',$q->fetchAll(\PDO::FETCH_COLUMN));$root=Util::evidenceRoot($results,$events);$this->pdo->prepare('UPDATE runs SET evidence_root_sha256=? WHERE id=?')->execute([$root,$runId]);return$root; }
+    public function finalizeRun(int $runId): void { $this->pdo->prepare('UPDATE runs SET status="completed",completed_at=NOW() WHERE id=? AND status="running"')->execute([$runId]); }
+    public function failRun(int $runId,string $error): void { $this->pdo->prepare('UPDATE runs SET status="failed",completed_at=NOW(),error_text=? WHERE id=?')->execute([$error,$runId]); }
+    public function listMissions(int $limit=100): array { $limit=max(1,min(500,$limit)); return $this->pdo->query('SELECT m.id,m.title,m.suite,m.status,m.config_hash,m.created_at,m.completed_at,m.error_text,(SELECT MAX(r.id) FROM runs r WHERE r.mission_id=m.id) AS run_id FROM missions m ORDER BY m.id DESC LIMIT '.$limit)->fetchAll(); }
+    public function getRun(int $runId): ?array { $q=$this->pdo->prepare('SELECT r.*,m.title,m.objective,m.config_json FROM runs r JOIN missions m ON m.id=r.mission_id WHERE r.id=?'); $q->execute([$runId]); $r=$q->fetch(); return $r?:null; }
+    public function getRunEvents(int $runId): array { $q=$this->pdo->prepare('SELECT id,event_type,event_sha256,event_json,created_at FROM run_events WHERE run_id=? ORDER BY id'); $q->execute([$runId]); return $q->fetchAll(); }
+    public function getConditionResults(int $runId): array { $q=$this->pdo->prepare('SELECT id,condition_name,seed,result_sha256,result_json,created_at FROM condition_results WHERE run_id=? ORDER BY id'); $q->execute([$runId]); return $q->fetchAll(); }
+}

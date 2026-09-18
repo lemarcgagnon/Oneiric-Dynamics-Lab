@@ -1,0 +1,6 @@
+Options -Indexes
+<FilesMatch "^(config\.php|schema\.sql|README\.md|RELEASE_NOTES\.md|MANIFEST\.sha256)$">
+  Require all denied
+</FilesMatch>
+RewriteEngine On
+RewriteRule ^(app|storage|docs|tests|qualification)/ - [F,L]

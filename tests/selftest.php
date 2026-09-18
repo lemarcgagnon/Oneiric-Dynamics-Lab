@@ -1,0 +1,7 @@
+<?php
+declare(strict_types=1);
+require __DIR__.'/../app/bootstrap.php';
+use ODLab\ResearchContract;use ODLab\Benchmark;use ODLab\Util;use ODLab\EquationSet;
+$fail=[];
+try{$cfg=ResearchContract::validate(ResearchContract::defaults());$mix=$cfg['derived_mix'];if(abs(array_sum($mix)-1.0)>1e-9)$fail[]='mixture sum';foreach($mix as $v)if($v<0)$fail[]='negative mix';$b=new Benchmark($cfg['benchmark']);$expected=['external_train'=>36,'target_dev'=>16,'commit_check'=>16,'candidate_pool'=>160,'final_known'=>40];foreach($expected as $k=>$n)if(count($b->splits[$k])!==$n)$fail[]="split $k";if(count($b->sealedFinalAbsent())!==20)$fail[]='split final_absent';$b->assertIsolation();$c=ResearchContract::conditions('all',$cfg);foreach($c as $cond)if($cond['name']!=='no_offline'&&$cond['name']!=='ordinary_augmentation'&&abs(array_sum($cond['mix'])-1)>1e-8)$fail[]='condition mix '.$cond['name'];if(strlen(Util::hash($cfg))!==64)$fail[]='hash';$x=$b->splits['external_train'][0];$phi=$b->evaluationEmbedding($x);if(abs(EquationSet::finiteReferenceNovelty($phi,[$phi],$b->noveltyScale(),$b->noveltyCap()))>1e-12)$fail[]='Eq19 identical novelty';$coverage=ResearchContract::mathCoverage();if(count($coverage)<10)$fail[]='math coverage';}catch(Throwable $e){$fail[]=$e->getMessage();}
+if($fail){fwrite(STDERR,"FAIL\n- ".implode("\n- ",$fail)."\n");exit(1);}echo "PASS: formalization invariants, Eq19 finite-reference formula, math coverage, split isolation, condition mixtures, deterministic hashing\n";

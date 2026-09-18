@@ -1,0 +1,242 @@
+
+===== AUDITOR A — PHP/code integrity =====
+PASS PHP syntax all application/test files
+PASS public routes do not instantiate scientific engine
+PASS public routes do not issue direct DB calls
+PASS frontend requests canonical backend mixture
+PASS final_known data touched once in engine final stage
+PASS sealed final-absent data touched once in engine final stage
+PASS research evidence schema present
+PASS storage directory exists in package
+PASS installer creates storage defensively
+PASS installer account/settings write is transactional
+PASS no embedded API key candidate
+PASS production code has no test namespace dependency
+PASS research contract binds exact manuscript SHA-256
+PASS application has no dark-mode branch
+PASS FR/EN translation authority present
+PASS researcher information bubbles wired to Mission Control
+PASS FR/EN UI routes use canonical I18n authority for health/install/report research text
+PASS sealed absent factor is outside generation engine
+PASS Eq19 formula and declared phi/sigma are centralized
+PASS Eq3 finite batch uses iid mixture draws, not deterministic quotas
+PASS Eq8 Q-hat is explicit and logged
+PASS Eq12 memory mixture and Eq18 TV bound are canonical runtime code
+PASS Eq13 native loss gate and accuracy specialization present
+PASS API routes through LabService for execution
+PASS LabService persists evidence and finalizes only after sealing
+PASS PdoRepository maps research evidence and final completion to MySQL
+PASS research evidence is sealed with a run-level integrity root
+PASS run completion is ordered analysis -> terminal event -> evidence seal -> run finalize -> mission finalize
+PASS schema has no LLM API-key persistence column
+PASS frontend has no web-storage key persistence
+PASS API exposes no key persistence route
+PASS BYOK provider destination/model are server-side frozen
+PASS LabService guards persisted evidence against BYOK secret
+PASS internal test/qualification directories are denied from web access
+PASS package manifest matches current files
+
+===== AUDITOR B — paper/mathematics IV&V =====
+PASS supplied manuscript SHA-256 matches canonical research contract
+PASS Eq3-4 mixture is a probability vector
+PASS Appendix C.2 softmax alone assigns singleton weight one
+PASS Eq5 reject-all branch prevents invalid singleton from entering Qhat
+PASS Eq12 proposal satisfies exact Eq18 total-variation identity
+PASS Appendix C.3 hard gate rejects anchor degradation
+PASS Eq19 refuses missing finite reference instead of silently using support-distance novelty
+PASS Appendix C.1 / Eq20 proposal novelty is not double-multiplied by exploratory share
+PASS fixed-API implementation does not counterfeit neural theta guarantees
+PASS Markov/invariant-measure claims remain conditional and unclaimed globally
+
+PAPER IVV PASS 9
+PAPER IVV FAIL 0
+PASS independent Python↔PHP mathematical cross-check: 350 cases
+PASS Eq. (3)-(4), (6), (7), (8), (12), (13), (18), (19), (20) numeric equivalence
+
+===== AUDITOR C — experimental semantics + analysis =====
+PASS: formalization invariants, Eq19 finite-reference formula, math coverage, split isolation, condition mixtures, deterministic hashing
+PASS mixture rho=0 cf=0
+PASS mixture rho=0.5 cf=0
+PASS mixture rho=0.5 cf=1
+PASS mixture rho=1 cf=0.5
+PASS mixture rho=0.66 cf=0.5
+PASS mixture rho=1 cf=1
+PASS gibbs normalized/order
+PASS Eq3 iid categorical sampler tracks mixture probabilities
+PASS Eq8 empirical distribution explicit/normalized
+PASS Eq20 novelty/admission/influence exact
+PASS gate tolerance pass
+PASS gate regression fail
+PASS Eq13 native loss gate pass
+PASS accuracy gate is exact L=1-accuracy specialization
+PASS benchmark split sizes
+PASS split hash
+PASS Eq12/18 finite-memory mixture and TV identity exact
+PASS Eq19 identical reference novelty zero
+PASS Eq19 one categorical mismatch equals 0.5 under declared phi/sigma
+PASS engine result structure
+PASS candidate UID uniqueness
+PASS absent factor remains non-inferable in deterministic evaluator
+PASS engine runtime verifies Eq18 bound
+PASS engine logs iid Eq3 mixture sampling law
+PASS answer-level final evaluation evidence retained
+PASS Eq12 eta_bar specialization is explicit
+PASS eta=0 yields exact Eq12 no-change even with admitted candidates
+PASS targeting controller state is captured in h_k specialization
+PASS service mission completes
+PASS condition results persisted
+PASS raw condition and answer-level evaluation evidence persisted
+PASS research events persisted
+PASS research hashes persisted
+PASS core comparator count
+PASS API call estimate
+PASS H2 evidence points
+PASS H2 model diagnostics
+
+TOTAL PASS 37
+TOTAL FAIL 0
+PASS mixture rejects rho > 1
+PASS hard-anchor benchmark rejects fake soft anchor slider
+PASS BYOK provider endpoint cannot be redirected by client config
+PASS math coverage distinguishes exact runtime equations from nonclaims
+PASS all smoke condition mixtures valid
+PASS all core condition mixtures valid
+PASS all h2 condition mixtures valid
+PASS all h3 condition mixtures valid
+PASS all h5 condition mixtures valid
+PASS all all condition mixtures valid
+PASS all custom condition mixtures valid
+PASS final absent isolated from every known split
+PASS sealed absent factor excluded from generator novelty representation
+PASS oracle validity independent of candidate-pool membership
+PASS admitted relative weights sum to one
+PASS logged Eq8 Q-hat remains normalized
+PASS rejected candidates have zero learning weight
+PASS Appendix C.2 reject-all branch precedes relative weighting
+PASS Eq18 bound verified for engine proposal
+PASS recombination kernel produces withheld conjunctions with multi-source lineage
+PASS coherence cost is operational, not hardcoded zero
+PASS sealed final tests occur only after proposal gate inputs
+PASS H5 targeting uses development data and never sealed final data
+PASS H5 targeting controller variable captured in sufficient-state specialization
+PASS H2 novelty_low admission obeys novelty band
+PASS H2 novelty_low weighted learning novelty in band
+PASS H2 novelty_mid admission obeys novelty band
+PASS H2 novelty_mid weighted learning novelty in band
+PASS H2 novelty_high admission obeys novelty band
+PASS H2 novelty_high weighted learning novelty in band
+PASS absolute admission rejects bad anchor regardless of ranking
+PASS gate failure triggers rollback
+PASS rollback restores exact reference state
+PASS reject/no-offline path is explicit no-change, not false gate pass
+PASS DeepSeek client retries and parses JSON output
+PASS DeepSeek call-level retry evidence retained
+PASS missing model answers are evaluator failures, not silently scored wrong
+PASS truncated DeepSeek completion is rejected
+PASS budget fail-closed before unsafe call
+
+HOSTILE PASS 39
+HOSTILE FAIL 0
+PASS H1 paired known-transfer delta is exact by seed
+PASS H1 retention noninferiority uses prespecified tolerance and paired CI
+PASS H2 compares flat/linear/quadratic models
+PASS H2 detects controlled interior inverted-U candidate
+PASS H2 seed-cluster bootstrap uncertainty executed
+PASS H4 primary benefit contrast is paired difference-in-differences by seed
+PASS H4 raw known-minus-absent remains diagnostic rather than primary inference
+PASS H5 targeted-minus-uniform performance is paired by seed
+PASS H5 observed token overhead is preserved separately from performance
+PASS multi-seed all-suite run receives analysis-ready status without claiming external validity
+PASS analysis explicitly prevents overclaiming scientific validity
+
+ANALYSIS PASS 11
+ANALYSIS FAIL 0
+
+===== AUDITOR D — persistence/evidence/BYOK =====
+PASS PdoRepository implements canonical Repository boundary
+PASS mission insert reaches PDO boundary
+PASS run insert reaches PDO boundary
+PASS PdoRepository touches schema table users
+PASS PdoRepository touches schema table missions
+PASS PdoRepository touches schema table runs
+PASS PdoRepository touches schema table condition_results
+PASS PdoRepository touches schema table run_events
+PASS runtime repository does not use app_settings for credentials or scientific state
+PASS schema defines users
+PASS schema defines app_settings
+PASS schema defines missions
+PASS schema defines runs
+PASS schema defines condition_results
+PASS schema defines run_events
+PASS research persistence column present: config_hash
+PASS research persistence column present: split_hash
+PASS research persistence column present: split_manifest_json
+PASS research persistence column present: software_version
+PASS research persistence column present: provider_model
+PASS research persistence column present: code_manifest_hash
+PASS research persistence column present: evidence_root_sha256
+PASS research persistence column present: analysis_json
+PASS research persistence column present: analysis_sha256
+PASS research persistence column present: usage_json
+PASS research persistence column present: usage_sha256
+PASS research persistence column present: result_sha256
+PASS research persistence column present: result_json
+PASS research persistence column present: event_sha256
+PASS research persistence column present: event_json
+PASS repository methods exercised through PDO spy
+PASS BYOK API key has no persistence column or repository SQL path
+
+PERSISTENCE PASS 32
+PERSISTENCE FAIL 0
+PASS clean persisted evidence verifies before report/export
+PASS tampered condition result is rejected
+PASS tampered event is rejected
+PASS tampered run-level analysis is rejected
+PASS deleted evidence row is rejected by run evidence root
+
+EVIDENCE PASS 5
+EVIDENCE FAIL 0
+PASS MySQL schema has no LLM API-key persistence column
+PASS installer never asks for or consumes an LLM key
+PASS repository boundary exposes no API-key persistence path
+PASS API has no key-save route
+PASS browser code does not persist BYOK key in web storage
+PASS Mission Control key field is transient password input
+PASS BYOK key is handed only to execution facade
+PASS persisted evidence is guarded against secret inclusion
+PASS run evidence records BYOK policy without credential
+PASS DeepSeek client clears in-memory key on destruction
+PASS authorization header is derived only inside DeepSeek client from runtime key
+PASS BYOK credential destination is locked to canonical DeepSeek endpoint
+PASS FR/EN session-only BYOK notice is explicit
+PASS secret-bearing result is rejected before persistence
+PASS BYOK secret absent from repository file after failure path
+PASS mission fails closed when secret guard fires
+PASS mission error text is secret-redacted
+PASS failure events contain no BYOK secret
+PASS frozen scientific config contains no BYOK secret
+
+BYOK RUNTIME PASS 6
+BYOK RUNTIME FAIL 0
+
+===== AUDITOR E — real PHP vertical HTTP orchestration =====
+PASS install.php executes through real PHP HTTP server
+PASS installer renders FR/EN and translated preflight
+PASS installer collects only DB/admin credentials, never LLM key
+PASS installer remains light-only
+PASS HTTP login/session
+PASS Mission Control renders FR/EN with researcher tooltips
+PASS backend preview derives mixture
+PASS frontend -> API -> LabService -> engine -> repository
+PASS BYOK key is required only for run request and absent from persisted/exported evidence
+PASS report renders FR/EN from canonical analysis with mathematical trace
+PASS research JSON export contains hashes/events/raw condition evidence and exact code-manifest hash
+PASS CSRF rejection
+PASS unauthenticated redirect
+PASS full all-suite 3-seed experiment completes through canonical service/engine/repository
+PASS all 45 condition×seed evidence rows and event hashes verify
+PASS full H1-H5 report renders FR/EN from persisted analysis
+PASS H4 difference-in-differences and frozen analysis plan render in application
+PASS full forensic JSON export contains all 45 condition evidence rows
+
+HOSTILE RELEASE QUALIFICATION: PASS
