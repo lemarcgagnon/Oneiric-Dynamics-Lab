@@ -6,6 +6,12 @@ Oneiric Dynamics Lab is the public research repository associated with the manus
 
 The repository contains both the scientific manuscript and an inspectable PHP/MySQL laboratory that operationalizes the portions of the framework applicable to a fixed model accessed through an API. The project is intended to make the research program testable rather than to presume that internally generated experience is beneficial.
 
+## Video
+
+Watch the project video: [Oneiric Dynamics Lab on YouTube](https://www.youtube.com/watch?v=S37zfRoS06Y)
+
+[![Oneiric Dynamics Lab video](https://img.youtube.com/vi/S37zfRoS06Y/hqdefault.jpg)](https://www.youtube.com/watch?v=S37zfRoS06Y)
+
 ## Repository contents
 
 - [`paper/`](paper/) — the reference research manuscript.
